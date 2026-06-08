@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EspacoRepository extends JpaRepository<Espaco, Long> {
+
+    boolean existsByNome(String nome);
 }

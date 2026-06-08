@@ -14,6 +14,11 @@ public class EspacoService {
     private EspacoRepository repository;
 
     public Espaco salvar(Espaco espaco) {
+        // Regra de negócio: Não permitir salas com o mesmo nome
+        if (repository.existsByNome(espaco.getNome())) {
+            throw new RuntimeException("Operação negada: Já existe um espaço cadastrado com este nome!");
+        }
+
         return repository.save(espaco);
     }
 
