@@ -1,11 +1,7 @@
 package br.edu.unifan.sisreserva.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor // Obrigatório para o JPA/Hibernate
 @Entity
 @Table(name = "tb_espaco")
 public class Espaco {
@@ -14,20 +10,49 @@ public class Espaco {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Ex: "Laboratório de Informática 1", "Sala 204", "Auditório Principal"
-    @Column(nullable = false, length = 100)
     private String nome;
 
-    // Quantas pessoas cabem no espaço
-    @Column(nullable = false)
     private Integer capacidade;
 
-    // Equipamentos disponíveis (Ex: "Projetor, 30 Computadores, Ar condicionado")
-    @Column(length = 255)
-    private String recursos;
+    // Essa anotação salva a palavra (ex: "LABORATORIO") no banco, em vez de um número (0, 1, 2)
+    @Enumerated(EnumType.STRING)
+    private TipoEspaco tipoEspaco;
 
-    // Boa prática: campo para podermos desativar uma sala em manutenção sem deletá-la do banco
-    @Column(nullable = false)
-    private Boolean ativo = true;
+    // Construtor vazio obrigatório para o JPA
+    public Espaco() {
+    }
 
+    // --- Getters e Setters ---
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Integer getCapacidade() {
+        return capacidade;
+    }
+
+    public void setCapacidade(Integer capacidade) {
+        this.capacidade = capacidade;
+    }
+
+    public TipoEspaco getTipoEspaco() {
+        return tipoEspaco;
+    }
+
+    public void setTipoEspaco(TipoEspaco tipoEspaco) {
+        this.tipoEspaco = tipoEspaco;
+    }
 }
