@@ -16,4 +16,11 @@ public class ReservaController {
     public Reserva salvar(@RequestBody Reserva reserva) {
         return service.salvar(reserva);
     }
+
+    // --- NOVO ENDPOINT DE CANCELAMENTO ---
+    // O {id} na URL indica qual reserva queremos cancelar (ex: /reservas/1/cancelar)
+    @PutMapping("/{id}/cancelar")
+    public Reserva cancelar(@PathVariable Long id) {
+        return service.cancelar(id);
+    }
 }

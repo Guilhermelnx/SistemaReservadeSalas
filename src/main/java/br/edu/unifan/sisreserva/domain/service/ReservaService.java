@@ -13,7 +13,6 @@ public class ReservaService {
     private ReservaRepository repository;
 
     public Reserva salvar(Reserva reserva) {
-        // Usa a sua query genial da Issue 22 para verificar conflitos
         boolean conflito = repository.existeConflitoDeHorario(
                 reserva.getEspaco().getId(),
                 reserva.getDataHoraInicio(),
@@ -24,8 +23,18 @@ public class ReservaService {
             throw new RuntimeException("Operação negada: O espaço já está reservado neste horário!");
         }
 
-        // Se passar direto pela trava, marcamos como CONFIRMADA e salvamos
         reserva.setStatus(StatusReserva.CONFIRMADA);
+        return repository.save(reserva);
+    }
+
+    // --- NOVO MÉTODO DE CANCELAMENTO ---
+    public Reserva cancelar(Long id) {
+        // Busca a reserva pelo ID. Se não achar, lança um erro.
+        Reserva reserva = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reserva não encontrada!"));
+
+        // Muda o status e salva novamente
+        reserva.setStatus(StatusReserva.CANCELADA);
         return repository.save(reserva);
     }
 }
