@@ -1,12 +1,8 @@
 package br.edu.unifan.sisreserva.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
-@Data
-@NoArgsConstructor
 @Entity
 @Table(name = "tb_reserva")
 public class Reserva {
@@ -15,27 +11,71 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // A data e hora em que a reserva vai acontecer
-    @Column(nullable = false)
     private LocalDateTime dataHoraInicio;
 
-    @Column(nullable = false)
     private LocalDateTime dataHoraFim;
 
-    // Status da reserva (ex: "PENDENTE", "CONFIRMADA", "CANCELADA")
-    @Column(nullable = false, length = 20)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusReserva status;
 
-    // --- AQUI ESTÃO OS RELACIONAMENTOS (CHAVES ESTRANGEIRAS) ---
-
-    // Várias reservas podem pertencer a UM usuário
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false) // Nome da coluna da chave estrangeira no banco
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    // Várias reservas podem ser feitas para UM espaço
     @ManyToOne
     @JoinColumn(name = "espaco_id", nullable = false)
     private Espaco espaco;
 
+    public Reserva() {
+    }
+
+    // --- Getters e Setters ---
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getDataHoraInicio() {
+        return dataHoraInicio;
+    }
+
+    public void setDataHoraInicio(LocalDateTime dataHoraInicio) {
+        this.dataHoraInicio = dataHoraInicio;
+    }
+
+    public LocalDateTime getDataHoraFim() {
+        return dataHoraFim;
+    }
+
+    public void setDataHoraFim(LocalDateTime dataHoraFim) {
+        this.dataHoraFim = dataHoraFim;
+    }
+
+    public StatusReserva getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusReserva status) {
+        this.status = status;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Espaco getEspaco() {
+        return espaco;
+    }
+
+    public void setEspaco(Espaco espaco) {
+        this.espaco = espaco;
+    }
 }
